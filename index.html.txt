@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pokémon TCG Pocket Fan Site</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Pokémon TCG Pocket</h1>
+    <nav>
+      <a href="#welcome">Welcome</a>
+      <a href="#gallery">Card Collection</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Welcome Section -->
+    <section id="welcome" class="section">
+      <h2>Welcome to the Fan Site!</h2>
+      <p>This site is dedicated to the exciting new mobile game, Pokémon TCG Pocket!</p>
+    </section>
+
+    <!-- Dynamic Card Collection Section -->
+    <section id="gallery" class="section">
+      <h2>Card Collection</h2>
+      <div id="card-collection" class="card-grid">
+        <p>Loading cards...</p>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+      <h2>About Pokémon TCG Pocket</h2>
+      <p><strong>Pokémon TCG Pocket</strong> brings the thrill of card collecting and battling to your mobile device.</p>
+      <p>This fan site is here to celebrate the game, its cards, and the community. Stay tuned for more!</p>
+      <p><a href="https://www.pokemon.com" target="_blank">Visit the official Pokémon site</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Fan project. Not affiliated with Nintendo, Pokémon, or Game Freak.</p>
+  </footer>
+
+  <!-- JavaScript to Load Cards -->
+  <script>
+    const container = document.getElementById('card-collection');
+    fetch('https://api.pokemontcg.io/v2/cards?pageSize=12')
+      .then(res => res.json())
+      .then(data => {
+        container.innerHTML = ''; // Clear loading text
+        data.data.forEach(card => {
+          const img = document.createElement('img');
+          img.src = card.images.large || card.images.small;
+          img.alt = card.name;
+          container.appendChild(img);
+        });
+      })
+      .catch(err => {
+        console.error("Failed to load cards:", err);
+        container.innerHTML = '<p style="color:red;">Failed to load cards.</p>';
+      });
+  </script>
+</body>
+</html>
